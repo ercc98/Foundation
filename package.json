@@ -4,6 +4,9 @@
   "displayName": "ErccDev Foundation",
   "description": "Foundation scripts for ErccDev projects",
   "unity": "6000.2",
+  "dependencies":{
+	"com.unity.addressables": "2.7.4"
+  },
  "keywords": [
     "ErccDev",
     "Foundation"
