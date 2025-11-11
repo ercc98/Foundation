@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "displayName": "ErccDev Foundation",
   "description": "Foundation scripts for ErccDev projects",
-  "unity": "6000.2.10f1",
+  "unity": "6000.2",
  "keywords": [
     "ErccDev",
     "Foundation"
