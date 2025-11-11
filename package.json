@@ -1,0 +1,21 @@
+{
+  "name": "com.erccdev.foundation",
+  "version": "1.0.0",
+  "displayName": "ErccDev Foundation",
+  "description": "Foundation scripts for ErccDev projects",
+  "unity": "6000.2.10f1",
+ "keywords": [
+    "ErccDev",
+    "Foundation"
+  ],
+  "author": {
+    "name": "ErccDev"
+  }
+  "Samples": [
+  {
+	  "displayName": "Sample 1",
+	  "description": "Demostrate the use of the foundation",
+  "path": "Samples~/Sample 1"
+  }
+  ]
+}
