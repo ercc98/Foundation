@@ -1,5 +1,5 @@
 {
-    "name": "Foundation.Runtime",
+    "name": "ErccDev.Core",
     "rootNamespace": "Foundation",
     "references": [],
     "includePlatforms": [],

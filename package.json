@@ -1,6 +1,6 @@
 {
   "name": "com.erccdev.foundation",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "displayName": "ErccDev Foundation",
   "description": "Foundation scripts for ErccDev projects",
   "unity": "6000.2",
