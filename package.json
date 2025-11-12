@@ -1,6 +1,6 @@
 {
   "name": "com.erccdev.foundation",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "displayName": "ErccDev Foundation",
   "description": "Reusable Unity utilities: Core (events, factories, pooling, save), Audio, Input, and Loader.",
   "unity": "6000.2",
@@ -13,12 +13,5 @@
   ],
   "author": {
     "name": "ErccDev"
-  },
-  "Samples": [
-  {
-	  "displayName": "Sample 1",
-	  "description": "Demostrate the use of the foundation",
-  "path": "Samples~/Sample 1"
   }
-  ]
 }

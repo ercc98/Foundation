@@ -3,7 +3,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
-using ErccDev.Loader;
+using ErccDev.Foundation.Loader;
 
 public class SceneLoaderTests
 {
