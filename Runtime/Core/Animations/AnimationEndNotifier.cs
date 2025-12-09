@@ -11,7 +11,7 @@ namespace ErccDev.Foundation.Core.Animations
     /// Subscribed listeners (code/Inspector) will be notified; optional auto-disable.
     /// </summary>
     [AddComponentMenu("ErccDev/Animations/Animation End Notifier")]
-    public sealed class AnimationEndNotifier : MonoBehaviour
+    public sealed class AnimationEndNotifier : MonoBehaviour, IAnimationEndNotifier
     {
         [Tooltip("Disable this GameObject after notifying listeners.")]
         [SerializeField] private bool autoDisableOnEnd = false;

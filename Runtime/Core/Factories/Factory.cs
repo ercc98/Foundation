@@ -3,14 +3,13 @@ using ErccDev.Foundation.Core.Pooling;
 
 namespace ErccDev.Foundation.Core.Factories
 {
-    public abstract class Factory<T> : MonoBehaviour where T : Component
+    public abstract class Factory<T> : MonoBehaviour, IFactory<T> where T : Component
     {
         [Header("Factory Settings")]
         [SerializeField] public T prefab;
         [SerializeField] private int initialPoolSize = 10;
 
-        // Protected so subclasses can access it
-        protected ObjectPool<T> _pool;
+        protected IObjectPool<T> _pool;
 
         protected virtual void Awake()
         {
@@ -25,8 +24,14 @@ namespace ErccDev.Foundation.Core.Factories
         }
 
         /// <summary>
-        /// Spawns (or reuses) an instance of T at the given pose.
+        /// Optional external configuration (DI, tests, etc).
+        /// Call this BEFORE Awake/Spawn if you want a custom pool.
         /// </summary>
+        public void SetPool(IObjectPool<T> pool)
+        {
+            _pool = pool;
+        }
+
         public virtual T Spawn(Vector3 position, Quaternion rotation)
         {
             if (_pool == null) WarmPool();
@@ -36,9 +41,6 @@ namespace ErccDev.Foundation.Core.Factories
             return instance;
         }
 
-        /// <summary>
-        /// Returns the instance to the pool.
-        /// </summary>
         public virtual void Recycle(T instance)
         {
             if (_pool == null || !instance) return;

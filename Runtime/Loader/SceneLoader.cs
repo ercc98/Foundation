@@ -12,7 +12,7 @@ namespace ErccDev.Foundation.Loader
     /// Reusable scene loader supporting both SceneManager and Addressables.
     /// One-per-project singleton; survives scene loads.
     /// </summary>
-    public class SceneLoader : MonoBehaviour
+    public class SceneLoader : MonoBehaviour, ISceneLoader
     {
         public static SceneLoader Instance { get; private set; }
 

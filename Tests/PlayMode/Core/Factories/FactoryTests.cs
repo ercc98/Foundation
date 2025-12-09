@@ -12,7 +12,7 @@ public class FactoryTests
     // Concrete wrapper so we can test the abstract Factory<T>
     private class TestFactory : Factory<TestComponent>
     {
-        public ObjectPool<TestComponent> Pool => _pool;
+        public IObjectPool<TestComponent> Pool => _pool;
         public void CallAwake() => base.Awake(); // expose protected Awake
     }
 

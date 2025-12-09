@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ErccDev.Foundation.Core.Pooling
 {
-    public class ObjectPool<T> where T : Component
+    public class ObjectPool<T> : IObjectPool<T> where T : Component
     {
         private readonly T _prefab;
         private readonly Transform _parent;

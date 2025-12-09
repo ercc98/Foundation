@@ -1,6 +1,5 @@
 using System;
 using ErccDev.Foundation.Input.Core;
-using ErccDev.Foundation.Input.Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,7 +17,7 @@ namespace ErccDev.Foundation.Input.Swipe
         double  _startTime;
         bool    _isPressing;
 
-        protected override void EnableModule()
+        public override void EnableModule()
         {
             if (config?.pointerPress != null)
             {
@@ -32,7 +31,7 @@ namespace ErccDev.Foundation.Input.Swipe
                 config.pointerPosition.action.Enable();
         }
 
-        protected override void DisableModule()
+        public override void DisableModule()
         {
             if (config?.pointerPress != null)
             {

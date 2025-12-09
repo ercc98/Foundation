@@ -3,33 +3,46 @@ using UnityEngine;
 
 namespace ErccDev.Foundation.Core.Animations
 {
-    /// <summary>
-    /// Call from an Animation Event to disable this GameObject (great for pooled FX/coins).
-    /// Methods:
-    ///   AE_DisableSelf()                 // disables immediately
-    ///   AE_DisableSelfDelay(float secs)  // disables after 'secs'
-    /// </summary>
     [AddComponentMenu("ErccDev/Animations/Animation Event Disable")]
-    public sealed class AnimationEventDisable : MonoBehaviour
+    public sealed class AnimationEventDisable : MonoBehaviour, IAnimationDisabler
     {
-        // No-arg: perfect for AnimationEvent with no parameters
+        // Animation Event – disable immediately
         public void AE_DisableSelf()
         {
-            if(!transform.parent.gameObject.activeInHierarchy) return;
-            gameObject.SetActive(false);
+            if (transform.parent != null && !transform.parent.gameObject.activeInHierarchy)
+                return;
+
+            DisableSelf();
         }
 
-        // Float arg: use the AnimationEvent 'Float' field to pass a delay
+        // Animation Event – disable after delay
         public void AE_DisableSelfDelay(float seconds)
         {
-            if (seconds <= 0f) { gameObject.SetActive(false); return; }
-            StartCoroutine(DisableAfter(seconds));
+            DisableSelf(seconds);
         }
 
-        private IEnumerator DisableAfter(float s)
+        // -------- IAnimationDisabler implementation --------
+
+        public void DisableSelf()
         {
-            yield return new WaitForSeconds(s);
             gameObject.SetActive(false);
+        }
+
+        public void DisableSelf(float delaySeconds)
+        {
+            if (delaySeconds <= 0f)
+            {
+                DisableSelf();
+                return;
+            }
+
+            StartCoroutine(DisableAfter(delaySeconds));
+        }
+
+        private IEnumerator DisableAfter(float seconds)
+        {
+            yield return new WaitForSeconds(seconds);
+            DisableSelf();
         }
     }
 }

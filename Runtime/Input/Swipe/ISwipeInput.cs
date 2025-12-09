@@ -1,6 +1,6 @@
 using System;
 
-namespace ErccDev.Foundation.Input.Interfaces
+namespace ErccDev.Foundation.Input.Swipe
 {
     public interface ISwipeInput
     {

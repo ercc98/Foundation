@@ -1,14 +1,13 @@
-using ErccDev.Foundation.Input.Interfaces;
 using UnityEngine;
 
 namespace ErccDev.Foundation.Input.Core
 {
-    public abstract class InputModule<TConfig> : MonoBehaviour, IInputModule where TConfig : ScriptableObject
+    public abstract class InputModule<T> : MonoBehaviour, IInputModule<T> where T : ScriptableObject
     {
         [Header("Config (ScriptableObject)")]
-        [SerializeField] protected TConfig config;
+        [SerializeField] protected T config;
 
-        public virtual TConfig Config
+        public virtual T Config
         {
             get => config;
             set
@@ -32,11 +31,12 @@ namespace ErccDev.Foundation.Input.Core
         protected virtual void OnEnable()  => EnableModule();
         protected virtual void OnDisable() => DisableModule();
 
-        protected abstract void EnableModule();
-        protected abstract void DisableModule();
+        public abstract void EnableModule();
+        public abstract void DisableModule();
 
         protected virtual void ValidateOrWarn() { }
-        protected virtual void OnBeforeConfigChange(TConfig oldConfig, TConfig newConfig) { }
+        protected virtual void OnBeforeConfigChange(T oldConfig, T newConfig) { }
         protected virtual void OnAfterConfigChange() { }
+
     }
 }
