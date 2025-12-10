@@ -8,8 +8,6 @@ namespace ErccDev.Foundation.Core.Gameplay
     public abstract class GameSessionController : MonoBehaviour, IGameSessionLifecycle
     {
 
-        protected IAudioService AudioService { get; private set; }
-
         public bool IsSessionActive { get; private set; }
         public bool IsSessionOver   { get; private set; }
 
