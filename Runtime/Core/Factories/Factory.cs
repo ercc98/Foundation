@@ -32,11 +32,12 @@ namespace ErccDev.Foundation.Core.Factories
             _pool = pool;
         }
 
-        public virtual T Spawn(Vector3 position, Quaternion rotation)
+        public virtual T Spawn(Vector3 position, Quaternion rotation, Transform parent = null)
         {
             if (_pool == null) WarmPool();
             var instance = _pool.Get();
             instance.transform.SetPositionAndRotation(position, rotation);
+            if (parent != null) instance.transform.SetParent(parent);
             instance.gameObject.SetActive(true);
             return instance;
         }
