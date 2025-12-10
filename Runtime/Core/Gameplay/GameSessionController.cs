@@ -7,9 +7,6 @@ namespace ErccDev.Foundation.Core.Gameplay
     /// <summary>Base orchestrator for a single gameplay session.</summary>
     public abstract class GameSessionController : MonoBehaviour, IGameSessionLifecycle
     {
-        [Header("Optional Services")]
-        [Tooltip("Assign a MonoBehaviour that implements IAudioService (e.g., your AudioManagerBase).")]
-        [SerializeField] private MonoBehaviour audioProvider;
 
         protected IAudioService AudioService { get; private set; }
 
@@ -19,8 +16,7 @@ namespace ErccDev.Foundation.Core.Gameplay
         public event Action SessionStarted;
         public event Action SessionEnded;
         public event Action SessionRestarted;
-
-        protected virtual void Awake() => ResolveAudioService();
+        
 
         public void StartSession()
         {
@@ -57,17 +53,5 @@ namespace ErccDev.Foundation.Core.Gameplay
         protected virtual void OnSessionEnded()     { }
         protected virtual void OnSessionRestarted() { }
 
-        protected void ResolveAudioService()
-        {
-            if (audioProvider is IAudioService svc)
-            {
-                AudioService = svc;
-                return;
-            }
-
-            // Fallback: auto-find any AudioManagerBase in scene
-            var manager = FindAnyObjectByType<AudioManagerBase>(FindObjectsInactive.Exclude);
-            AudioService = manager;
-        }
     }
 }
