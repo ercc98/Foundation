@@ -8,7 +8,7 @@ namespace ErccDev.Foundation.Camera
     [RequireComponent(typeof(CinemachineCamera))]
     [RequireComponent(typeof(CinemachineBasicMultiChannelPerlin))]
     
-    public sealed class CameraShakerBase : MonoBehaviour, ICameraShaker
+    public class CameraShakerBase : MonoBehaviour, ICameraShaker
     {
         [Header("Binding")]
         [SerializeField] private CinemachineCamera cineCam;
