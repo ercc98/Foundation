@@ -6,10 +6,6 @@ namespace ErccDev.Foundation.Core.Save
     [CreateAssetMenu(menuName = "ErccDev/Profile/Player Profile", fileName = "PlayerProfileData")]
     public sealed class PlayerProfileData : ScriptableObject
     {
-        [SerializeField] private string fileName = "save.json";
-
-        public string FileName => fileName;
-
         [Header("Identity")]
         [SerializeField] private string playerId;
         [SerializeField] private string displayName;
