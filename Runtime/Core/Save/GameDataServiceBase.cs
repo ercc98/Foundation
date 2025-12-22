@@ -5,24 +5,35 @@ namespace ErccDev.Foundation.Core.Save
 {
     public abstract class GameDataServiceBase : MonoBehaviour
     {
-        [Header("Save")]
+        [Header("Persistence")]
+        [SerializeField] private string fileName = "playerdata.json";
+
+        [Tooltip("Load automatically on Awake.")]
         [SerializeField] private bool loadOnAwake = true;
 
-        protected abstract string FileName { get; }
-        protected abstract List<ScriptableObject> BuildObjects();
+        [Tooltip("Autosave when app goes to background (mobile).")]
+        [SerializeField] private bool saveOnPause = true;
 
-        private List<ScriptableObject> _cachedObjects;
+        [Tooltip("Autosave when app quits (PC/Editor).")]
+        [SerializeField] private bool saveOnQuit = true;
 
         private static GameDataServiceBase _instance;
+        private List<ScriptableObject> _cachedObjects;
+
+        /// <summary>Derived classes provide the list of ScriptableObjects to persist.</summary>
+        protected abstract List<ScriptableObject> BuildObjects();
+
+        /// <summary>Allow derived classes to access the file name if needed.</summary>
+        protected string FileName => fileName;
 
         protected virtual void Awake()
         {
+            // Singleton guard (prevents duplicates if multiple scenes include this object)
             if (_instance != null && _instance != this)
             {
                 Destroy(gameObject);
                 return;
             }
-
             _instance = this;
 
             DontDestroyOnLoad(gameObject);
@@ -37,14 +48,18 @@ namespace ErccDev.Foundation.Core.Save
             {
                 _cachedObjects = BuildObjects();
 
-                // Defensive cleanup (optional but recommended)
+                // Defensive cleanup (optional)
                 if (_cachedObjects != null)
-                {
                     _cachedObjects.RemoveAll(o => o == null);
-                }
             }
 
             return _cachedObjects;
+        }
+
+        /// <summary>Call this if the set of objects changes at runtime.</summary>
+        protected void InvalidateCache()
+        {
+            _cachedObjects = null;
         }
 
         public void SaveAll(bool pretty = true)
@@ -52,7 +67,7 @@ namespace ErccDev.Foundation.Core.Save
             var objects = GetObjectsCached();
             if (objects == null || objects.Count == 0) return;
 
-            SaveService.SaveAllSO(objects, FileName, pretty);
+            SaveService.SaveAllSO(objects, fileName, pretty);
         }
 
         public void LoadAll()
@@ -60,17 +75,19 @@ namespace ErccDev.Foundation.Core.Save
             var objects = GetObjectsCached();
             if (objects == null || objects.Count == 0) return;
 
-            SaveService.LoadAllSO(objects, FileName);
+            SaveService.LoadAllSO(objects, fileName);
         }
 
-        protected virtual void OnApplicationPause(bool pause)
+        private void OnApplicationPause(bool pause)
         {
-            if (pause) SaveAll();
+            if (pause && saveOnPause)
+                SaveAll();
         }
 
-        protected virtual void OnApplicationQuit()
+        private void OnApplicationQuit()
         {
-            SaveAll();
+            if (saveOnQuit)
+                SaveAll();
         }
     }
 }
