@@ -25,6 +25,7 @@ namespace ErccDev.Foundation.Core.Save
 
         [Header("Consents")]
         [SerializeField] private bool analyticsConsent = true;
+        [SerializeField] private bool tutorialCompleted = false;
 
         public string PlayerId => playerId;
         public string DisplayName { get => displayName; set => displayName = value; }
@@ -33,6 +34,7 @@ namespace ErccDev.Foundation.Core.Save
         public int SaveSchemaVersion => saveSchemaVersion;
         public string LastAppVersion { get => lastAppVersion; set => lastAppVersion = value; }
         public bool AnalyticsConsent { get => analyticsConsent; set => analyticsConsent = value; }
+        public bool TutorialCompleted { get => tutorialCompleted; set => tutorialCompleted = value; }
 
         public DateTime CreatedAtUtc => createdAtUtcTicks == 0 ? DateTime.MinValue : new DateTime(createdAtUtcTicks, DateTimeKind.Utc);
         public DateTime LastLoginUtc => lastLoginUtcTicks == 0 ? DateTime.MinValue : new DateTime(lastLoginUtcTicks, DateTimeKind.Utc);
