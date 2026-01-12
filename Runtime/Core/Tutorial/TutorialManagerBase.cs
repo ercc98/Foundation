@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace ErccDev.Foundation.Core.Tutorial
 {
-    public class TutorialManager : MonoBehaviour, ITutorialManager
+    public class TutorialManagerBase : MonoBehaviour, ITutorialManager
     {
         [Header("Setup")]
         [SerializeField] private List<TutorialStep> steps;
