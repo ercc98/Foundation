@@ -8,24 +8,24 @@ namespace ErccDev.Foundation.Core.Tutorial
     public class TutorialManagerBase : MonoBehaviour, ITutorialManager
     {
         [Header("Setup")]
-        [SerializeField] private List<TutorialStep> steps;
-        [SerializeField] private MonoBehaviour uiProvider;
-        [SerializeField] private GameObject tutorialMoverPrefab;
+        [SerializeField] protected List<TutorialStep> steps;
+        [SerializeField] protected MonoBehaviour uiProvider;
+        [SerializeField] protected GameObject tutorialMoverPrefab;
              
-        private int currentIndex;
-        private bool currentStepCompleted = false;
-        private readonly float stepDelay = 6f;
-        private Coroutine startedCoroutine;
-        private TutorialStep currentStep;
+        protected int currentIndex;
+        protected bool currentStepCompleted = false;
+        protected readonly float stepDelay = 6f;
+        protected Coroutine startedCoroutine;
+        protected TutorialStep currentStep;
         
 
-        private ITutorialStepUI ui;
+        protected ITutorialStepUI ui;
         protected ITutorialContext Context { get; private set; }
 
         public bool IsRunning => currentStep != null;
         public event Action OnTutorialEnded;   
 
-        private void Awake()
+        protected void Awake()
         {
             ui = uiProvider as ITutorialStepUI;
         }
@@ -38,7 +38,7 @@ namespace ErccDev.Foundation.Core.Tutorial
             currentIndex = 0;
         }
 
-        private void StartStep()
+        protected void StartStep()
         {
             currentStepCompleted = false;
             currentStep = steps[currentIndex];
@@ -47,7 +47,7 @@ namespace ErccDev.Foundation.Core.Tutorial
             Time.timeScale = 0f; // Pause game during tutorial
         }
 
-        private void Update()
+        protected void Update()
         {
             if (currentStep == null) return;
 
@@ -56,7 +56,7 @@ namespace ErccDev.Foundation.Core.Tutorial
 
         }
 
-        private void CompleteStep()
+        protected void CompleteStep()
         {
             currentStep.Cleanup();
             ui.Hide();
@@ -73,7 +73,7 @@ namespace ErccDev.Foundation.Core.Tutorial
 
         }
 
-        private void EndTutorial()
+        protected void EndTutorial()
         {
             Debug.Log("Tutorial completed");
 
@@ -82,7 +82,7 @@ namespace ErccDev.Foundation.Core.Tutorial
             startedCoroutine = StartCoroutine(DisableGameObjectCorroutine());
         }
 
-        IEnumerator DisableGameObjectCorroutine()
+        protected IEnumerator DisableGameObjectCorroutine()
         {
             yield return new WaitForSeconds(stepDelay);
             tutorialMoverPrefab.SetActive(false);
@@ -102,7 +102,7 @@ namespace ErccDev.Foundation.Core.Tutorial
             StartStep();
         }
 
-        void OnDisable()
+        protected void OnDisable()
         {
             if (startedCoroutine != null)
             {
