@@ -25,20 +25,20 @@ namespace ErccDev.Foundation.Core.Tutorial
         public bool IsRunning => currentStep != null;
         public event Action OnTutorialEnded;   
 
-        protected void Awake()
+        protected virtual void Awake()
         {
             ui = uiProvider as ITutorialStepUI;
         }
 
-        public void SetContext(ITutorialContext ctx) => Context = ctx;
+        public virtual void SetContext(ITutorialContext ctx) => Context = ctx;
 
-        public void StartTutorial()
+        public virtual void StartTutorial()
         {
             tutorialMoverPrefab.SetActive(true);
             currentIndex = 0;
         }
 
-        protected void StartStep()
+        protected virtual void StartStep()
         {
             currentStepCompleted = false;
             currentStep = steps[currentIndex];
@@ -47,7 +47,7 @@ namespace ErccDev.Foundation.Core.Tutorial
             Time.timeScale = 0f; // Pause game during tutorial
         }
 
-        protected void Update()
+        protected virtual void Update()
         {
             if (currentStep == null) return;
 
@@ -56,7 +56,7 @@ namespace ErccDev.Foundation.Core.Tutorial
 
         }
 
-        protected void CompleteStep()
+        protected virtual void CompleteStep()
         {
             currentStep.Cleanup();
             ui.Hide();
@@ -73,7 +73,7 @@ namespace ErccDev.Foundation.Core.Tutorial
 
         }
 
-        protected void EndTutorial()
+        protected virtual void EndTutorial()
         {
             Debug.Log("Tutorial completed");
 
@@ -82,7 +82,7 @@ namespace ErccDev.Foundation.Core.Tutorial
             startedCoroutine = StartCoroutine(DisableGameObjectCorroutine());
         }
 
-        protected IEnumerator DisableGameObjectCorroutine()
+        protected virtual IEnumerator DisableGameObjectCorroutine()
         {
             yield return new WaitForSeconds(stepDelay);
             tutorialMoverPrefab.SetActive(false);
@@ -90,19 +90,19 @@ namespace ErccDev.Foundation.Core.Tutorial
             gameObject.SetActive(false);
         }
 
-        public void SkipTutorial()
+        public virtual void SkipTutorial()
         {
             currentStep?.Cleanup();
             ui.Hide();
             EndTutorial();
         }
 
-        public void NextStep()
+        public virtual void NextStep()
         {
             StartStep();
         }
 
-        protected void OnDisable()
+        protected virtual void OnDisable()
         {
             if (startedCoroutine != null)
             {
