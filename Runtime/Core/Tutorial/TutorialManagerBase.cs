@@ -44,7 +44,6 @@ namespace ErccDev.Foundation.Core.Tutorial
             currentStep = steps[currentIndex];
             currentStep.Initialize(Context);
             ui.Show(currentStep);
-            Time.timeScale = 0f; // Pause game during tutorial
         }
 
         protected virtual void Update()
@@ -61,9 +60,7 @@ namespace ErccDev.Foundation.Core.Tutorial
             currentStep.Cleanup();
             ui.Hide();
 
-            currentIndex++;
-            Debug.Log("Step completed");
-            Time.timeScale = 1f; // Resume game after tutorial step
+            currentIndex++;            
             currentStepCompleted = true;
             if (currentIndex >= steps.Count)
             {
@@ -75,8 +72,6 @@ namespace ErccDev.Foundation.Core.Tutorial
 
         protected virtual void EndTutorial()
         {
-            Debug.Log("Tutorial completed");
-
             OnTutorialEnded?.Invoke();
             currentStep = null;
             startedCoroutine = StartCoroutine(DisableGameObjectCorroutine());
