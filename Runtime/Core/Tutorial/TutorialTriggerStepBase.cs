@@ -3,17 +3,17 @@ using UnityEngine;
 namespace ErccDev.Foundation.Core.Tutorial
 {
     [RequireComponent(typeof(Collider))]
-    public sealed class TutorialTriggerStep : MonoBehaviour
+    public class TutorialTriggerStepBase : MonoBehaviour
     {
         [Header("Setup")]
-        [SerializeField] private MonoBehaviour tutorialManagerProvider;
-        [SerializeField] private bool triggerOnce = true;
-        [SerializeField] private string requiredTag = "Player";
+        [SerializeField] protected MonoBehaviour tutorialManagerProvider;
+        [SerializeField] protected bool triggerOnce = true;
+        [SerializeField] protected string requiredTag = "Player";
 
-        private ITutorialManager tutorialManager;
-        private bool triggered;
+        protected ITutorialManager tutorialManager;
+        protected bool triggered;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             tutorialManager = tutorialManagerProvider as ITutorialManager;
 
@@ -21,7 +21,7 @@ namespace ErccDev.Foundation.Core.Tutorial
             col.isTrigger = true;
         }
 
-        private void OnTriggerEnter(Collider other)
+        protected virtual void OnTriggerEnter(Collider other)
         {
             if (triggerOnce && triggered) return;
             if (!string.IsNullOrEmpty(requiredTag) && !other.CompareTag(requiredTag)) return;
