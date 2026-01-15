@@ -17,5 +17,7 @@ namespace ErccDev.Foundation.Loader
         void UnloadSceneAsync(AssetReference sceneAssetReference);
 
         bool IsThisScene(string sceneName);
+        bool IsSceneLoaded(string sceneName);
+        void ReloadActiveSceneAsync();
     }
 }

@@ -18,6 +18,7 @@ namespace ErccDev.Foundation.Loader
 
         // Track Addressables scene handles so we can unload by reference or key safely
         private readonly Dictionary<string, AsyncOperationHandle<SceneInstance>> _addressableHandles = new();
+        private AssetReference _lastLoadedAddressableScene;
 
         protected virtual void Awake()
         {
@@ -48,9 +49,19 @@ namespace ErccDev.Foundation.Loader
         public virtual bool IsThisScene(string sceneName)
             => SceneManager.GetActiveScene().name == sceneName;
 
+        public virtual void ReloadActiveSceneAsync()
+            => StartCoroutine(ReloadActiveSceneCoroutine());
+
+        public virtual bool IsSceneLoaded(string sceneName)
+        {
+            var scene = SceneManager.GetSceneByName(sceneName);
+            return scene.IsValid() && scene.isLoaded;
+        }
+
         // ---------- Coroutines ----------
         protected virtual IEnumerator LoadSceneCoroutine(string sceneName, bool additive = false)
         {
+            _lastLoadedAddressableScene = null;
             AsyncOperation op = SceneManager.LoadSceneAsync(
                 sceneName,
                 additive ? LoadSceneMode.Additive : LoadSceneMode.Single
@@ -60,6 +71,8 @@ namespace ErccDev.Foundation.Loader
 
         protected virtual IEnumerator LoadSceneCoroutine(AssetReference sceneAssetReference, bool additive = false)
         {
+            _lastLoadedAddressableScene = sceneAssetReference;
+
             var handle = sceneAssetReference.LoadSceneAsync(
                 additive ? LoadSceneMode.Additive : LoadSceneMode.Single,
                 activateOnLoad: true
@@ -101,6 +114,53 @@ namespace ErccDev.Foundation.Loader
                 while (!unloadHandle.IsDone) yield return null;
                 _addressableHandles.Remove(key);
             }
+        }
+
+        protected virtual IEnumerator ReloadActiveSceneCoroutine()
+        {
+            // Prefer the last loaded mechanism (addressable vs build scene).
+            if (_lastLoadedAddressableScene != null)
+            {
+                yield return ReloadSceneCoroutine(_lastLoadedAddressableScene);
+                yield break;
+            }
+
+            // Fallback: reload active by name (build scene workflow)
+            var active = SceneManager.GetActiveScene();
+            yield return ReloadSceneCoroutine(active.name);
+        }
+
+        protected virtual IEnumerator ReloadSceneCoroutine(string sceneName)
+        {
+            // If it’s loaded, unload then load again
+            var scene = SceneManager.GetSceneByName(sceneName);
+            if (scene.isLoaded)
+            {
+                var unload = SceneManager.UnloadSceneAsync(sceneName);
+                while (!unload.isDone) yield return null;
+            }
+
+            // Load again
+            var load = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
+            while (!load.isDone) yield return null;
+        }
+
+        protected virtual IEnumerator ReloadSceneCoroutine(AssetReference sceneAssetReference)
+        {
+            // If we have a handle tracked for this reference, unload first
+            string key = sceneAssetReference.RuntimeKey.ToString();
+            if (_addressableHandles.TryGetValue(key, out var handle))
+            {
+                var unloadHandle = Addressables.UnloadSceneAsync(handle, true);
+                while (!unloadHandle.IsDone) yield return null;
+                _addressableHandles.Remove(key);
+            }
+
+            // Then load again
+            var loadHandle = sceneAssetReference.LoadSceneAsync(LoadSceneMode.Single, activateOnLoad: true);
+            _addressableHandles[key] = loadHandle;
+
+            while (!loadHandle.IsDone) yield return null;
         }
     }
 }
