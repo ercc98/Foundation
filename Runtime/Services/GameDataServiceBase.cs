@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using ErccDev.Foundation.Core.Save;
 using UnityEngine;
 
-namespace ErccDev.Foundation.Core.Save
+namespace ErccDev.Foundation.Services
 {
     public abstract class GameDataServiceBase : MonoBehaviour
     {
