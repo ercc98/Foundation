@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ErccDev.Foundation.Input.Core
+namespace ErccDev.Foundation.Core.Input
 {
     /// <summary>
     /// Abstraction for a configurable input module that uses ScriptableObject-based settings.

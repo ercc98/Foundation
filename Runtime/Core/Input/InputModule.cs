@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ErccDev.Foundation.Input.Core
+namespace ErccDev.Foundation.Core.Input
 {
     public abstract class InputModule<T> : MonoBehaviour, IInputModule<T> where T : ScriptableObject
     {
