@@ -1,5 +1,5 @@
 using System;
-using ErccDev.Foundation.Input.Core;
+using ErccDev.Foundation.Core.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
