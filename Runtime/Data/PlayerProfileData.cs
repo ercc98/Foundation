@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace ErccDev.Foundation.Core.Save
+namespace ErccDev.Foundation.Data
 {
     [CreateAssetMenu(menuName = "ErccDev/Profile/Player Profile", fileName = "PlayerProfileData")]
     public sealed class PlayerProfileData : ScriptableObject
@@ -40,7 +40,6 @@ namespace ErccDev.Foundation.Core.Save
         public DateTime LastLoginUtc => lastLoginUtcTicks == 0 ? DateTime.MinValue : new DateTime(lastLoginUtcTicks, DateTimeKind.Utc);
         public DateTime LastSaveUtc => lastSaveUtcTicks == 0 ? DateTime.MinValue : new DateTime(lastSaveUtcTicks, DateTimeKind.Utc);
 
-        /// <summary>Call on boot before using the profile.</summary>
         public void EnsureInitialized()
         {
             if (string.IsNullOrWhiteSpace(playerId))
