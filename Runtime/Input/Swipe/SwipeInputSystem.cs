@@ -12,13 +12,13 @@ namespace ErccDev.Foundation.Input.Swipe
         public event Action SwipeUp;
         public event Action SwipeDown;
         public event Action Tap;
-        public event Action StartTap;
-        public event Action EndTap;
+        public event Action StartTouch;
+        public event Action EndTouch;
+        public bool IsTouching => _isPressing;
 
         Vector2 _startPos;
         double  _startTime;
         bool    _isPressing;
-        bool    _moved;
 
         public override void EnableModule()
         {
@@ -65,17 +65,18 @@ namespace ErccDev.Foundation.Input.Swipe
         void OnPressStarted(InputAction.CallbackContext ctx)
         {
             _isPressing = true;
-            _moved      = false;
             _startTime  = ctx.time;
             _startPos   = ReadPointer();
             
-            StartTap?.Invoke();
+            StartTouch?.Invoke();
         }
 
         void OnPressCanceled(InputAction.CallbackContext ctx)
         {
             if (!_isPressing) return;
             _isPressing = false;
+
+            EndTouch?.Invoke();
 
             Vector2 endPos = ReadPointer();
             Vector2 delta  = endPos - _startPos;
@@ -84,12 +85,9 @@ namespace ErccDev.Foundation.Input.Swipe
             float tapMax   = config.tapMaxPixels   * DpiScale;
             double heldFor = ctx.time - _startTime;
 
-            if (delta.magnitude > tapMax)
-                _moved = true;
 
-            if (!_moved && heldFor <= config.tapMaxTime)
+            if (delta.magnitude <= tapMax && heldFor <= config.tapMaxTime)
             {
-                EndTap?.Invoke();
                 Tap?.Invoke();
                 return;
             }

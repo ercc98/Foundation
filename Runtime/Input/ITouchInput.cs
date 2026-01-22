@@ -4,8 +4,8 @@ namespace ErccDev.Foundation.Input
 {
     public interface ITouchInput
     {
-        event Action StartTap;
-        event Action EndTap;
-        event Action Tap;
+        event Action StartTouch;
+        event Action EndTouch;
+        bool IsTouching { get; }
     }
 }
