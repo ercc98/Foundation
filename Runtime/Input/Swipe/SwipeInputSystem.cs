@@ -5,17 +5,20 @@ using UnityEngine.InputSystem;
 
 namespace ErccDev.Foundation.Input.Swipe
 {
-    public class SwipeInputSystem : InputModule<SwipeInputConfig>, ISwipeInput
+    public class SwipeInputSystem : InputModule<SwipeInputConfig>, ISwipeInput, ITouchInput
     {
         public event Action SwipeLeft;
         public event Action SwipeRight;
         public event Action SwipeUp;
         public event Action SwipeDown;
         public event Action Tap;
+        public event Action StartTap;
+        public event Action EndTap;
 
         Vector2 _startPos;
         double  _startTime;
         bool    _isPressing;
+        bool    _moved;
 
         public override void EnableModule()
         {
@@ -62,8 +65,11 @@ namespace ErccDev.Foundation.Input.Swipe
         void OnPressStarted(InputAction.CallbackContext ctx)
         {
             _isPressing = true;
+            _moved      = false;
             _startTime  = ctx.time;
             _startPos   = ReadPointer();
+            
+            StartTap?.Invoke();
         }
 
         void OnPressCanceled(InputAction.CallbackContext ctx)
@@ -78,8 +84,12 @@ namespace ErccDev.Foundation.Input.Swipe
             float tapMax   = config.tapMaxPixels   * DpiScale;
             double heldFor = ctx.time - _startTime;
 
-            if (delta.magnitude <= tapMax && heldFor <= config.tapMaxTime)
+            if (delta.magnitude > tapMax)
+                _moved = true;
+
+            if (!_moved && heldFor <= config.tapMaxTime)
             {
+                EndTap?.Invoke();
                 Tap?.Invoke();
                 return;
             }
