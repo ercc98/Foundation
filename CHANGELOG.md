@@ -3,6 +3,7 @@
 	- Added ITouchInput
 	- Added Pause Services
 	- Added Tutorial scripts
+	- Added Achievements and Rewards system (Core/Achievements)
 	- Modified some scripts and directories for a better nomenclature
 ## [1.0.2] - 11 November 2025
 	- Added unit test and audio, input  and loader scripts
