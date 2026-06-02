@@ -1,7 +1,7 @@
 // Assets/Scripts/ErccDev/Foundation/Cameras/CameraShakeProfile.cs
 using UnityEngine;
 
-namespace ErccDev.Foundation.Camera
+namespace ErccDev.Foundation.Cameras
 {
     [CreateAssetMenu(fileName = "CameraShakeProfile", menuName = "ErccDev/Camera/Shake Profile")]
     public sealed class CameraShakeProfile : ScriptableObject

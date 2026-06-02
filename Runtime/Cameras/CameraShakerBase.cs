@@ -2,7 +2,7 @@
 using Unity.Cinemachine;
 using UnityEngine;
 
-namespace ErccDev.Foundation.Camera
+namespace ErccDev.Foundation.Cameras
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(CinemachineCamera))]

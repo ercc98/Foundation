@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-namespace ErccDev.Foundation.Camera
+namespace ErccDev.Foundation.Cameras
 {
     public interface ICameraShaker
     {
