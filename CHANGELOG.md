@@ -1,3 +1,7 @@
+## [Unreleased]
+	- Added Collection system (Core/Collection): persistent compendium/album of unique entries
+	- CollectionProgressData ScriptableObject saved through the Foundation save system
+	- Entries grant shared Reward assets on first discovery; CollectionCompletionCondition bridges to Achievements
 ## [1.0.3] - 01 June 2026
 	- Added BillboardScript
 	- Added ITouchInput
