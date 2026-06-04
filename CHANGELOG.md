@@ -1,4 +1,9 @@
 ## [Unreleased]
+	- Added Notification system (Core/Notifications): generic in-game toast queue for unlocks
+	- INotificationService + NotificationManagerBase show one notification at a time honoring per-toast duration
+	- Static NotificationService facade pushes any notification (rewards, level-ups...) in one line
+	- Abstract NotificationViewBase lets games skin the popup; the Foundation ships no visuals
+	- Optional, removable source bridges (AchievementNotificationSource, CollectionNotificationSource) keep the core decoupled from achievements/collections
 	- Added Collection system (Core/Collection): persistent compendium/album of unique entries
 	- CollectionProgressData ScriptableObject saved through the Foundation save system
 	- Engine is reward-agnostic; optional CollectionRewardGranter grants Reward assets via the OnDiscovered event
