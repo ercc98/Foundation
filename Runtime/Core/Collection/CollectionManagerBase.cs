@@ -3,30 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using ErccDev.Foundation.Core.Events;
 using ErccDev.Foundation.Core.Save;
-using ErccDev.Foundation.Core.Achievements;
 
 namespace ErccDev.Foundation.Core.Collection
 {
     /// <summary>
     /// Generic collection engine: tracks which entries have been discovered, persists the
-    /// progress ScriptableObject, grants the entry's rewards on first discovery, and broadcasts
-    /// EventBus events. All content lives in the CollectionEntryDefinition / Reward assets — this
-    /// base only orchestrates them. Subclass to add custom popups, analytics, etc.
+    /// progress ScriptableObject, and broadcasts the discovery. All content lives in the
+    /// CollectionEntryDefinition assets — this base only orchestrates them. Subclass to add
+    /// custom popups, analytics, etc.
     ///
-    /// Connections:
-    ///   • Rewards    — entries carry the same Reward assets as achievements, granted via context.
-    ///   • Achievements — fires "collectionEntryDiscovered" / "collectionCompleted" so an
-    ///                    EventCountCondition (or CollectionCompletionCondition) can react.
+    /// Deliberately knows nothing about rewards: it exposes <see cref="OnDiscovered"/> and fires
+    /// "collectionEntryDiscovered" / "collectionCompleted" on the EventBus. Side effects such as
+    /// granting rewards are wired separately (see CollectionRewardGranter) or by listening to
+    /// those events, so the engine stays single-responsibility and reward-economy agnostic.
     /// </summary>
     public class CollectionManagerBase : MonoBehaviour, ICollectionService
     {
         [Header("Setup")]
         [SerializeField] protected List<CollectionEntryDefinition> entries = new();
         [SerializeField] protected CollectionProgressData progress;
-        [SerializeField] protected MonoBehaviour contextProvider;          // optional IAchievementContext (for rewards)
         [SerializeField] protected string saveFileName = "collection.json";
-
-        protected IAchievementContext Context { get; private set; }
 
         public event Action<CollectionEntryDefinition> OnDiscovered;
 
@@ -34,7 +30,6 @@ namespace ErccDev.Foundation.Core.Collection
 
         protected virtual void Awake()
         {
-            Context = contextProvider as IAchievementContext;
             LoadProgress();
         }
 
@@ -53,7 +48,6 @@ namespace ErccDev.Foundation.Core.Collection
             if (def == null || progress == null) return false;
             if (!progress.Discover(entryId)) return false;     // already discovered
 
-            GrantRewards(def);
             SaveProgress();
 
             OnDiscovered?.Invoke(def);
@@ -63,15 +57,6 @@ namespace ErccDev.Foundation.Core.Collection
                 EventBus.Trigger("collectionCompleted", new() { ["count"] = DiscoveredCount });
 
             return true;
-        }
-
-        // ---------- Rewards ----------
-
-        protected virtual void GrantRewards(CollectionEntryDefinition def)
-        {
-            if (def.rewards == null) return;
-            foreach (var r in def.rewards)
-                r?.Grant(Context);
         }
 
         // ---------- Persistence ----------
