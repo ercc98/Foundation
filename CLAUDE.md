@@ -39,6 +39,11 @@ Distributed via UPM git URL: `https://github.com/ercc98/Foundation.git`.
 - **Static facades over swappable services**: e.g. `SaveService` is a static class wrapping a swappable
   `ISaveService` (`SetDefault(...)` for tests/encryption/cloud). `EventBus` exposes a static API over a
   `DontDestroyOnLoad` singleton.
+- **Segregate interfaces by concern**: when one component serves several roles, split the contract so consumers
+  depend only on what they need. See touch input — shared touch-level state lives on `ITouchInput`
+  (`IsTouching`, `PointerPosition`, `StartTouch`/`EndTouch`), while per-axis steering is split into
+  `IHorizontalTouchInput` (`SteeringX`, `MovedLeft`/`MovedRight`) and `IVerticalTouchInput`
+  (`SteeringY`, `MovedUp`/`MovedDown`); `SteeringTouchInputSystem` implements all three.
 - **ScriptableObject-driven config**: sound groups, swipe/touch configs, camera shake profiles, tutorial config
   are SOs authored in the editor.
 - **Lightweight & drop-in**: minimal dependencies between modules; keep changes scoped to the relevant module folder.
