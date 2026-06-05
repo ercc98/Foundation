@@ -1,4 +1,7 @@
 ## [Unreleased]
+	- Added Pinch input (Input/Pinch): two-finger recognizer reporting fingers moving closer/apart
+	- IPinchInput + PinchInputSystem expose PinchedIn/PinchedOut events plus Scale/DeltaPixels/Midpoint for zoom mapping
+	- PinchInputConfig sets the DPI-scaled jitter threshold and whether extra fingers are ignored
 	- Added Notification system (Core/Notifications): generic in-game toast queue for unlocks
 	- INotificationService + NotificationManagerBase show one notification at a time honoring per-toast duration
 	- Static NotificationService facade pushes any notification (rewards, level-ups...) in one line

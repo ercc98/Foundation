@@ -16,7 +16,8 @@ Distributed via UPM git URL: `https://github.com/ercc98/Foundation.git`.
     `Collection` (compendium/album), `Notifications` (in-game toast queue for unlocks).
   - `Audio/` — `AudioManagerBase` + `IAudioService`, ScriptableObject sound groups/entries/categories.
   - `Input/` — touch & swipe systems (`SwipeInputSystem`, `SteeringTouchInputSystem` — 2-axis steering
-    via `IHorizontalTouchInput`/`IVerticalTouchInput`).
+    via `IHorizontalTouchInput`/`IVerticalTouchInput`; `PinchInputSystem` — two-finger pinch via
+    `IPinchInput`, reports fingers moving closer/apart and exposes `Scale`/`DeltaPixels` for zoom mapping).
   - `Loader/` — scene loading (`SceneLoader` / `ISceneLoader`).
   - `Cameras/` — `CameraShakerBase` + shake profiles.
   - `Rendering/` — `BillboardSpriteRenderer`.
@@ -43,7 +44,9 @@ Distributed via UPM git URL: `https://github.com/ercc98/Foundation.git`.
   depend only on what they need. See touch input — shared touch-level state lives on `ITouchInput`
   (`IsTouching`, `PointerPosition`, `StartTouch`/`EndTouch`), while per-axis steering is split into
   `IHorizontalTouchInput` (`SteeringX`, `MovedLeft`/`MovedRight`) and `IVerticalTouchInput`
-  (`SteeringY`, `MovedUp`/`MovedDown`); `SteeringTouchInputSystem` implements all three.
+  (`SteeringY`, `MovedUp`/`MovedDown`); `SteeringTouchInputSystem` implements all three. Likewise each
+  distinct gesture gets its own focused contract rather than overloading one — `IPinchInput` (two-finger
+  pinch) is separate, so a future rotate/multi-finger gesture would be its own interface + system too.
 - **ScriptableObject-driven config**: sound groups, swipe/touch configs, camera shake profiles, tutorial config
   are SOs authored in the editor.
 - **Lightweight & drop-in**: minimal dependencies between modules; keep changes scoped to the relevant module folder.
