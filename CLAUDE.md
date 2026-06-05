@@ -12,9 +12,11 @@ Distributed via UPM git URL: `https://github.com/ercc98/Foundation.git`.
 ## Layout
 - `Runtime/` — the library, organized by module. Each file's namespace is `ErccDev.Foundation.<Module>...`.
   - `Core/` — `Events` (EventBus), `Factories`, `Pooling`, `Save`, `Pause`, `Input`, `Tutorial`,
-    `Gameplay` (session controller), `Animations`.
+    `Gameplay` (session controller), `Animations`, `Achievements` (+ shared `Reward` assets),
+    `Collection` (compendium/album), `Notifications` (in-game toast queue for unlocks).
   - `Audio/` — `AudioManagerBase` + `IAudioService`, ScriptableObject sound groups/entries/categories.
-  - `Input/` — touch & swipe systems (`SwipeInputSystem`, `HorizontalTouchInputSystem`).
+  - `Input/` — touch & swipe systems (`SwipeInputSystem`, `SteeringTouchInputSystem` — 2-axis steering
+    via `IHorizontalTouchInput`/`IVerticalTouchInput`).
   - `Loader/` — scene loading (`SceneLoader` / `ISceneLoader`).
   - `Cameras/` — `CameraShakerBase` + shake profiles.
   - `Rendering/` — `BillboardSpriteRenderer`.

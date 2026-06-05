@@ -15,6 +15,8 @@ namespace ErccDev.Foundation.Input.Swipe
         public event Action StartTouch;
         public event Action EndTouch;
         public bool IsTouching => _isPressing;
+        public Vector2 PointerPosition => ReadPointer();
+        public Vector2 StartPosition => _startPos;
 
         Vector2 _startPos;
         double  _startTime;
