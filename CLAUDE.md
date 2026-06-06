@@ -13,7 +13,8 @@ Distributed via UPM git URL: `https://github.com/ercc98/Foundation.git`.
 - `Runtime/` — the library, organized by module. Each file's namespace is `ErccDev.Foundation.<Module>...`.
   - `Core/` — `Events` (EventBus), `Factories`, `Pooling`, `Save`, `Pause`, `Input`, `Tutorial`,
     `Gameplay` (session controller), `Animations`, `Achievements` (+ shared `Reward` assets),
-    `Collection` (compendium/album), `Notifications` (in-game toast queue for unlocks).
+    `Collection` (compendium/album, driven by an authored `CollectionCatalog` SO — the single source
+    of truth the manager and any game-side UI share), `Notifications` (in-game toast queue for unlocks).
   - `Audio/` — `AudioManagerBase` + `IAudioService`, ScriptableObject sound groups/entries/categories.
   - `Input/` — touch & swipe systems (`SwipeInputSystem`, `SteeringTouchInputSystem` — 2-axis steering
     via `IHorizontalTouchInput`/`IVerticalTouchInput`; `PinchInputSystem` — two-finger pinch via
@@ -56,5 +57,4 @@ Distributed via UPM git URL: `https://github.com/ercc98/Foundation.git`.
 - Unity project root is one level up (`ErccDevCorePackage`); this `Foundation` folder is the package under `Assets/`.
 - A `unity-mcp` MCP server is available for driving the Unity editor directly when connected.
 - When adding a feature, add a matching PlayMode test under `Tests/PlayMode/<Module>/`.
-- Versioning: bump `package.json` `version` and update `CHANGELOG.md` on release.
-  (Note: `package.json` currently reads `1.0.2` while the latest commit/CHANGELOG is `1.0.3` — keep them in sync.)
+- Versioning: bump `package.json` `version` and update `CHANGELOG.md` on release (keep them in sync).

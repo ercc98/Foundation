@@ -1,19 +1,20 @@
 using System.IO;
 using System.Collections.Generic;
+using System.Reflection;
 using NUnit.Framework;
 using UnityEngine;
 using ErccDev.Foundation.Core.Collection;
 
 public class CollectionManagerBaseTests
 {
-    // Test seam: skips the auto Awake so entries/progress can be injected, then loads manually.
+    // Test seam: skips the auto Awake so catalog/progress can be injected, then loads manually.
     private class TestableCollectionManager : CollectionManagerBase
     {
         protected override void Awake() { /* configured manually in tests */ }
 
-        public void Configure(List<CollectionEntryDefinition> e, CollectionProgressData p, string file)
+        public void Configure(CollectionCatalog c, CollectionProgressData p, string file)
         {
-            entries      = e;
+            catalog      = c;
             progress     = p;
             saveFileName = file;
             LoadProgress();
@@ -56,14 +57,26 @@ public class CollectionManagerBaseTests
         return p;
     }
 
-    private TestableCollectionManager Build(CollectionProgressData progress, params string[] ids)
+    private CollectionCatalog Catalog(params string[] ids)
     {
         var entries = new List<CollectionEntryDefinition>();
         foreach (var id in ids) entries.Add(Entry(id));
 
+        var cat = ScriptableObject.CreateInstance<CollectionCatalog>();
+        // entries is serialized-private; populate it directly for the test.
+        typeof(CollectionCatalog)
+            .GetField("entries", BindingFlags.NonPublic | BindingFlags.Instance)
+            .SetValue(cat, entries);
+        cat.Invalidate();
+        _assets.Add(cat);
+        return cat;
+    }
+
+    private TestableCollectionManager Build(CollectionProgressData progress, params string[] ids)
+    {
         _go = new GameObject("collection");
         var mgr = _go.AddComponent<TestableCollectionManager>();
-        mgr.Configure(entries, progress, _saveFile);
+        mgr.Configure(Catalog(ids), progress, _saveFile);
         return mgr;
     }
 

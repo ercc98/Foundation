@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using ErccDev.Foundation.Core.Events;
 using ErccDev.Foundation.Core.Save;
@@ -20,7 +19,7 @@ namespace ErccDev.Foundation.Core.Collection
     public class CollectionManagerBase : MonoBehaviour, ICollectionService
     {
         [Header("Setup")]
-        [SerializeField] protected List<CollectionEntryDefinition> entries = new();
+        [SerializeField] protected CollectionCatalog catalog;
         [SerializeField] protected CollectionProgressData progress;
         [SerializeField] protected string saveFileName = "collection.json";
 
@@ -35,9 +34,9 @@ namespace ErccDev.Foundation.Core.Collection
 
         // ---------- ICollectionService ----------
 
-        public int   TotalCount      => entries.Count;
+        public int   TotalCount      => catalog != null ? catalog.Count : 0;
         public int   DiscoveredCount => progress != null ? progress.Count : 0;
-        public float Completion01    => entries.Count > 0 ? Mathf.Clamp01(DiscoveredCount / (float)entries.Count) : 0f;
+        public float Completion01    => TotalCount > 0 ? Mathf.Clamp01(DiscoveredCount / (float)TotalCount) : 0f;
 
         public bool IsDiscovered(string entryId)
             => progress != null && progress.IsDiscovered(entryId);
@@ -53,7 +52,7 @@ namespace ErccDev.Foundation.Core.Collection
             OnDiscovered?.Invoke(def);
             EventBus.Trigger("collectionEntryDiscovered", new() { ["id"] = entryId });
 
-            if (DiscoveredCount >= entries.Count)
+            if (DiscoveredCount >= TotalCount)
                 EventBus.Trigger("collectionCompleted", new() { ["count"] = DiscoveredCount });
 
             return true;
@@ -77,12 +76,6 @@ namespace ErccDev.Foundation.Core.Collection
         // ---------- Helpers ----------
 
         protected CollectionEntryDefinition Find(string entryId)
-        {
-            if (string.IsNullOrEmpty(entryId)) return null;
-            for (int i = 0; i < entries.Count; i++)
-                if (entries[i] != null && entries[i].entryId == entryId)
-                    return entries[i];
-            return null;
-        }
+            => catalog != null ? catalog.Get(entryId) : null;
     }
 }

@@ -1,4 +1,8 @@
 ## [Unreleased]
+	- Added CollectionCatalog (Core/Collection): one authored SO holding every CollectionEntryDefinition — the single source of truth shared by the manager and any game-side consumer
+	- CollectionCatalog exposes Entries/Count, Get(id)/Get<T>(id)/TryGet, Invalidate(), and an editor-only "Refresh From Project" context menu
+	- Moved UnlockCollectionEntryReward into the Collection module (bridges Achievements -> Collection; guid preserved)
+	- BREAKING: CollectionManagerBase no longer holds a List<CollectionEntryDefinition> entries; assign a CollectionCatalog instead (Find/TotalCount/completion read the catalog)
 	- Added Pinch input (Input/Pinch): two-finger recognizer reporting fingers moving closer/apart
 	- IPinchInput + PinchInputSystem expose PinchedIn/PinchedOut events plus Scale/DeltaPixels/Midpoint for zoom mapping
 	- PinchInputConfig sets the DPI-scaled jitter threshold and whether extra fingers are ignored
