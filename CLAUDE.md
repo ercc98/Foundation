@@ -37,10 +37,11 @@ Distributed via UPM git URL: `https://github.com/ercc98/Foundation.git`.
 
 ## Conventions (match these when adding code)
 - **Interface + base class pairs**: ship an `IThing` interface alongside an abstract `ThingBase : MonoBehaviour`
-  so games subclass/wire in the editor. See `AudioManagerBase`, `CameraShakerBase`, `TutorialManagerBase`.
+  so games subclass/wire in the editor. See `AudioManagerBase`, `CameraShakerBase`, `TutorialManagerBase`,
+  `NotificationManagerBase` (`INotificationService`).
 - **Static facades over swappable services**: e.g. `SaveService` is a static class wrapping a swappable
   `ISaveService` (`SetDefault(...)` for tests/encryption/cloud). `EventBus` exposes a static API over a
-  `DontDestroyOnLoad` singleton.
+  `DontDestroyOnLoad` singleton. `NotificationService` is a static facade that pushes any toast in one line.
 - **Segregate interfaces by concern**: when one component serves several roles, split the contract so consumers
   depend only on what they need. See touch input — shared touch-level state lives on `ITouchInput`
   (`IsTouching`, `PointerPosition`, `StartTouch`/`EndTouch`), while per-axis steering is split into

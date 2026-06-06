@@ -1,4 +1,4 @@
-## [Unreleased]
+## [1.1.0] - 05 June 2026
 	- Added CollectionCatalog (Core/Collection): one authored SO holding every CollectionEntryDefinition — the single source of truth shared by the manager and any game-side consumer
 	- CollectionCatalog exposes Entries/Count, Get(id)/Get<T>(id)/TryGet, Invalidate(), and an editor-only "Refresh From Project" context menu
 	- Moved UnlockCollectionEntryReward into the Collection module (bridges Achievements -> Collection; guid preserved)
