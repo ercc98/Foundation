@@ -5,7 +5,9 @@
   "description": "Reusable Unity utilities: Core (events, factories, pooling, save, achievements, collection, notifications), Audio, Input, and Loader.",
   "unity": "6000.2",
   "dependencies":{
-	"com.unity.addressables": "2.7.4"
+	"com.unity.addressables": "2.7.4",
+	"com.unity.inputsystem": "1.18.0",
+	"com.unity.cinemachine": "3.1.6"
   },
  "keywords": [
     "ErccDev",

@@ -1,5 +1,5 @@
 {
-    "name": "Editor",
+    "name": "ErccDev.Foundation.Tests",
     "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",

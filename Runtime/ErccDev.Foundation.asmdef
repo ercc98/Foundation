@@ -1,6 +1,6 @@
 {
     "name": "ErccDev.Foundation",
-    "rootNamespace": "Foundation",
+    "rootNamespace": "ErccDev.Foundation",
     "references": [
         "Unity.Addressables",
         "Unity.ResourceManager",
