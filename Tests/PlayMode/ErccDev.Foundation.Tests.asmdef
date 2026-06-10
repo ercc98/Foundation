@@ -8,7 +8,8 @@
         "Unity.InputSystem",
         "Unity.InputSystem.IntegrationTests",
         "Unity.InputSystem.TestFramework",
-        "Unity.Addressables"
+        "Unity.Addressables",
+        "Unity.Cinemachine"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

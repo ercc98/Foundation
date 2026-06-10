@@ -80,13 +80,19 @@ namespace ErccDev.Foundation.Input.Swipe
 
             EndTouch?.Invoke();
 
-            Vector2 endPos = ReadPointer();
-            Vector2 delta  = endPos - _startPos;
+            Vector2 delta   = ReadPointer() - _startPos;
+            double  heldFor = ctx.time - _startTime;
+
+            ResolveGesture(delta, heldFor);
+        }
+
+        // Pure decision: turns a drag delta + hold time into a tap or directional swipe.
+        void ResolveGesture(Vector2 delta, double heldFor)
+        {
+            if (config == null) return;
 
             float minSwipe = config.minSwipePixels * DpiScale;
             float tapMax   = config.tapMaxPixels   * DpiScale;
-            double heldFor = ctx.time - _startTime;
-
 
             if (delta.magnitude <= tapMax && heldFor <= config.tapMaxTime)
             {
