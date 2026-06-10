@@ -5,8 +5,8 @@ A reusable Unity package of "solid base" scripts the author drops into **new gam
 The goal is a library of classes commonly needed across games (events, audio, input, saving, pooling,
 scene loading, tutorials, cameras, etc.) so each new project starts from a tested foundation instead of scratch.
 
-Package: `com.erccdev.foundation` · Unity `6000.2` · depends on Addressables (asmdef also references
-InputSystem & Cinemachine). Assembly: `ErccDev.Foundation`, root namespace `Foundation`.
+Package: `com.erccdev.foundation` · Unity `6000.2` · depends on Addressables, InputSystem &
+Cinemachine (all declared in `package.json`). Assembly: `ErccDev.Foundation`, root namespace `ErccDev.Foundation`.
 Distributed via UPM git URL: `https://github.com/ercc98/Foundation.git`.
 
 ## Layout
@@ -23,7 +23,8 @@ Distributed via UPM git URL: `https://github.com/ercc98/Foundation.git`.
   - `Cameras/` — `CameraShakerBase` + shake profiles.
   - `Rendering/` — `BillboardSpriteRenderer`.
   - `Data/`, `Services/`, `Bootstrap/` — profile/settings data, data service base, splash controller.
-- `Tests/PlayMode/` — PlayMode tests mirroring the Runtime folder structure (`Editor.asmdef`).
+- `Tests/PlayMode/` — PlayMode tests mirroring the Runtime folder structure
+  (`ErccDev.Foundation.Tests.asmdef`).
 
 ## Design principles
 - **Follow SOLID.** Keep classes single-responsibility, depend on the interfaces (the `IThing` abstractions),

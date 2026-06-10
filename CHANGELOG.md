@@ -1,3 +1,9 @@
+## [1.2.0] - 10 June 2026
+	- Declared InputSystem (1.18.0) and Cinemachine (3.1.6) as package dependencies so the package compiles in any consumer project (previously referenced by the asmdef but undeclared)
+	- Renamed the PlayMode test assembly from "Editor" to "ErccDev.Foundation.Tests" (meta GUID preserved); test asmdef now also references Unity.Cinemachine
+	- Aligned the Runtime asmdef rootNamespace to "ErccDev.Foundation" so newly created scripts get the correct default namespace
+	- Added PlayMode tests for previously-untested modules: PauseService, InputModule<T> base, CameraShakerBase, AchievementManagerBase, and SwipeInputSystem
+	- SwipeInputSystem: extracted the tap/swipe decision into a private ResolveGesture seam (behavior-identical) so the gesture logic is testable without simulating input
 ## [1.1.0] - 05 June 2026
 	- Added CollectionCatalog (Core/Collection): one authored SO holding every CollectionEntryDefinition — the single source of truth shared by the manager and any game-side consumer
 	- CollectionCatalog exposes Entries/Count, Get(id)/Get<T>(id)/TryGet, Invalidate(), and an editor-only "Refresh From Project" context menu
