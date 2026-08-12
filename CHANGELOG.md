@@ -1,3 +1,9 @@
+## [1.3.0] - 12 August 2026
+	- Added Gamepad input (Input/Gamepad): controller reader built on the New Input System, a drop-in InputModule<GamepadInputConfig> sibling to the touch/swipe/pinch systems
+	- Segregated contracts by concern: IGamepadSticksInput (Move/Look with radial dead zone + IsConnected), IGamepadButtonsInput (position-based face/shoulder buttons, ButtonPressed/Released + IsPressed), IGamepadTriggersInput (analog LeftTrigger/RightTrigger 0..1 + held flags), IGamepadDpadInput (directional events + IsUp/Down/Left/Right)
+	- GamepadButton enum names buttons by physical position (South/East/West/North) so the API stays controller-agnostic across Xbox/PlayStation
+	- GamepadInputConfig authors all InputActionReferences plus stick dead-zone, trigger and D-pad thresholds; D-pad reuses the AxisState edge-trigger idiom from the steering touch system
+	- Added matching PlayMode tests (Tests/PlayMode/Input/Gamepad) covering stick dead-zone rescaling, trigger thresholds, D-pad diagonals, and button press/release state + events
 ## [1.2.0] - 10 June 2026
 	- Declared InputSystem (1.18.0) and Cinemachine (3.1.6) as package dependencies so the package compiles in any consumer project (previously referenced by the asmdef but undeclared)
 	- Renamed the PlayMode test assembly from "Editor" to "ErccDev.Foundation.Tests" (meta GUID preserved); test asmdef now also references Unity.Cinemachine
